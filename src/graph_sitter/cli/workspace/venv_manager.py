@@ -6,9 +6,11 @@ from pathlib import Path
 class VenvManager:
     """Manages the virtual environment for codegen."""
 
-    def __init__(self, codegen_dir: Path):
+    def __init__(self, codegen_dir: Path, venv_dir: Path | None = None):
         self.codegen_dir = codegen_dir
-        self.venv_dir = self.codegen_dir / ".venv"
+        if venv_dir is None:
+            venv_dir = codegen_dir / ".venv"
+        self.venv_dir = venv_dir
 
     def is_initialized(self) -> bool:
         """Check if virtual environment exists."""

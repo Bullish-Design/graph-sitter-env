@@ -1,5 +1,9 @@
+import os
+
 from contextlib import nullcontext
 from pathlib import Path
+
+from dotenv import load_dotenv
 
 from rich.status import Status
 
@@ -8,6 +12,10 @@ from graph_sitter.cli.auth.session import CliSession
 from graph_sitter.cli.rich.spinners import create_spinner
 from graph_sitter.cli.utils.notebooks import create_notebook
 from graph_sitter.cli.workspace.venv_manager import VenvManager
+
+load_dotenv()
+
+venv_dir = os.getenv("VENV_DIR")
 
 
 def initialize_codegen(session: CliSession, status: Status | str = "Initializing") -> CliSession:
@@ -42,7 +50,7 @@ def initialize_codegen(session: CliSession, status: Status | str = "Initializing
 
         # Initialize virtual environment
         status_obj.update(f"   {'Creating' if isinstance(status, str) else 'Checking'} virtual environment...")
-        venv = VenvManager(session.codegen_dir)
+        venv = VenvManager(session.codegen_dir, venv_dir=Path(venv_dir) if venv_dir else None)
         if not venv.is_initialized():
             venv.create_venv()
             venv.install_packages("codegen")
