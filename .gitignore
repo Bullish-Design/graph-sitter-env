@@ -45,7 +45,7 @@ pr-logs/#
 alembic_versions_backup
 .idea/
 **/*.egg-info/**
-**/*.c
+#**/*.c
 **/build/
 **/dist/
 **/*.so
